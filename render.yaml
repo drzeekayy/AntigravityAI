@@ -1,0 +1,21 @@
+services:
+  # ----------------------------------------------------------------------------
+  # AntigravityAI Unified Web Service (Docker deployment: Frontend + Backend)
+  # ----------------------------------------------------------------------------
+  - type: web
+    name: antigravity-ai
+    env: docker
+    dockerfilePath: Dockerfile
+    plan: free
+    region: oregon
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: GOOGLE_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4o
+      - key: PORT
+        value: 10000

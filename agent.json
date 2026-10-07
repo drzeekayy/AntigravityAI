@@ -1,0 +1,30 @@
+{
+  "name": "AntigravityAI",
+  "version": "1.0.0",
+  "description": "Advanced PC troubleshooting and debugging agent.",
+  "type": "assistant",
+  "entrypoint": {
+    "backend": "backend/main.py",
+    "frontend": "frontend/src/App.jsx"
+  },
+  "models": {
+    "primary": "gpt-4o",
+    "fallback": "gemini-2.5-flash"
+  },
+  "governance": {
+    "identity": "docs/agents.md",
+    "instructions": "docs/instructions.txt",
+    "constraints": "docs/constraints.md",
+    "policies": "docs/policies.md",
+    "capabilities": "docs/capabilities.json"
+  },
+  "state": {
+    "memory_store": "memory/memory.json",
+    "activity_log": "logs/activity.log",
+    "config": "config/agent_config.json"
+  },
+  "tools": [
+    "list_files",
+    "read_file"
+  ]
+}

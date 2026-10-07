@@ -1,0 +1,88 @@
+{
+  "name": "AntigravityAI Slack Bot",
+  "nodes": [
+    {
+      "parameters": {
+        "events": [
+          "app_mention",
+          "message"
+        ]
+      },
+      "id": "3139b4be-4767-466d-8848-18e001dfa298",
+      "name": "Slack Trigger",
+      "type": "n8n-nodes-base.slackTrigger",
+      "typeVersion": 1,
+      "position": [
+        200,
+        300
+      ],
+      "webhookId": "antigravity-slack-webhook"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://YOUR_NGROK_URL.ngrok-free.app/ask",
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={\n  \"message\": \"{{ $json.text }}\"\n}"
+      },
+      "id": "2b6db93e-2edb-4ffc-a3f8-62d2946c1c11",
+      "name": "Ask AntigravityAI Backend",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        420,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "channelId": {
+          "__rl": true,
+          "value": "={{ $('Slack Trigger').item.json.channel }}",
+          "mode": "id"
+        },
+        "text": "={{ $json.reply }}",
+        "otherOptions": {
+          "thread_ts": "={{ $('Slack Trigger').item.json.ts }}"
+        }
+      },
+      "id": "78de3dcf-8bb5-4a6c-939e-270bf0eec9a7",
+      "name": "Reply to Slack",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.1,
+      "position": [
+        640,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Slack Trigger": {
+      "main": [
+        [
+          {
+            "node": "Ask AntigravityAI Backend",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ask AntigravityAI Backend": {
+      "main": [
+        [
+          {
+            "node": "Reply to Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

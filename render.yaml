@@ -11,7 +11,7 @@ services:
     healthCheckPath: /health
     autoDeploy: true
     envVars:
-      - key: OPENAI_API_KEY
+      - key: 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
         sync: false
       - key: GOOGLE_API_KEY
         sync: false
